@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express()
 const axios = require('axios');
+const morgan = require("morgan")
 var parseString = require('xml2js').parseString;
 
 if (process.env.NODE_ENV !== 'production') {
@@ -13,7 +14,9 @@ const priority3 = ['edu', 'it']
 const priority4 = ['any', 'el', 'info']
 
 app.use(express.json());
+app.use(morgan('dev'))
 
+ 
 app.get('/', async (req, res) => {
   let domains_list = [];
   let pol_res = []
@@ -24,7 +27,7 @@ app.get('/', async (req, res) => {
   let duration = req.body.duration
   let url = req.body.url
   const [domain, tld] = url.split('.')
-  if (priority==2) priority2.unshift(tld)
+  if (priority==1) priority1.unshift(tld)
   // give object as info about input of request
   var req_info = {
     url: url,
@@ -98,6 +101,24 @@ app.get('/', async (req, res) => {
     })
   }
 })
+
+
+app.use((req, res, next) => {
+  const error = new Error("Not found");
+  error.status = 404;
+  next(error);
+});
+
+// error handler middleware
+app.use((error, req, res, next) => {
+  res.status(error.status || 500).send({
+    error: {
+      status: error.status || 500,
+      message: error.message || 'Internal Server Error',
+    },
+  });
+});
+
 
 app.listen(process.env.PORT, () => {
   console.log(`App listening on port ${process.env.PORT}`)
