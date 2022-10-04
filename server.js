@@ -7,10 +7,10 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
-const pririty1 = ['com', 'net', 'org']
-const pririty2 = ['uk', 'dev']
-const pririty3 = ['edu', 'it']
-const pririty4 = ['any', 'el', 'info']
+const priority1 = ['net', 'org']
+const priority2 = ['uk', 'dev']
+const priority3 = ['edu', 'it']
+const priority4 = ['any', 'el', 'info']
 
 app.use(express.json());
 
@@ -24,6 +24,7 @@ app.get('/', async (req, res) => {
   let duration = req.body.duration
   let url = req.body.url
   const [domain, tld] = url.split('.')
+  if (priority==2) priority2.unshift(tld)
   // give object as info about input of request
   var req_info = {
     url: url,
@@ -35,7 +36,7 @@ app.get('/', async (req, res) => {
 
   priority_name = "priority".concat(priority)
   const add_to_list = (t) => domains_list.push(domain.concat(".", t))
-  pririty2.forEach(add_to_list);
+  priority2.forEach(add_to_list);
 
   let mod_priority = domains_list.toString()
   let namecheap_uri = 
