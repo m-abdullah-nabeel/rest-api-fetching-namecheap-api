@@ -28,8 +28,8 @@ const checkPrice = async (domainName) => {
                 } else {
                     let err = {
                         error: {
-                            message: result.ApiResponse.Errors[0].Error[0]._,
-                            Number: result.ApiResponse.Errors[0].Error[0].$.Number    
+                            message: result.ApiResponse.Errors[0].Error[0]._ || "An error occured",
+                            Number: result.ApiResponse.Errors[0].Error[0].$.Number || "Unknown Error Number"   
                         }
                     }
                     single_tld.push(err)
@@ -49,32 +49,14 @@ const checkPrice = async (domainName) => {
     }
 }
 
-let domains_list = ['net', 'org', 'uk', 'com', 'dev', 'bz', 'biz', 'co', 'xyz', 'me', 'io', 'me']
+let sample_domains_list = ['net', 'org', 'uk', 'com', 'dev', 'bz', 'biz', 'co', 'xyz', 'me', 'io', 'me']
 
-let promise_domains_list = domains_list.map(domain => checkPrice(domain))
-
-const final = async () => {
+const price_check_all = async (domains_list) => {
+    let promise_domains_list = domains_list.map(domain => checkPrice(domain))
     const get_all = await Promise.all(promise_domains_list)
-    console.log(get_all)    
+    // console.log(get_all)    
+    return get_all
 }
 
-final()
-
-// ##############################################################
-// let num = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
-// const fetchOne = async (n) => {
-//     const res = await axios.get(`https://jsonplaceholder.typicode.com/todos/${n}`)
-//     // console.log(res.data)
-//     return res.data
-// }
-
-// let listed = num.map(number => fetchOne(number))
-// console.log(listed)
-
-// const final = async () => {
-//     const get_all = await Promise.all(listed)
-//     console.log(get_all)    
-// }
-
-// final()
+// price_check_all(sample_domains_list)
+module.exports = price_check_all
