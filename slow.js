@@ -21,15 +21,11 @@ parseString(response.data, function (err, result) {
     // console.dir(pricingData)
     console.dir(result.ApiResponse.CommandResponse);
     console.log("*******************************")
-    console.dir(result.ApiResponse.CommandResponse[0].UserGetPricingResult[0].ProductType);
-    // console.dir(result.ApiResponse.CommandResponse[0].UserGetPricingResult[0].ProductType[0].ProductCategory);
     // console.dir(result.ApiResponse.CommandResponse[0].UserGetPricingResult[0].ProductType[0].ProductCategory.length);
     // console.dir(result.ApiResponse.CommandResponse[0].UserGetPricingResult[0].ProductType[0].ProductCategory[0].$);
     // console.dir(result.ApiResponse.CommandResponse[0].UserGetPricingResult[0].ProductType[0].ProductCategory[0].Product);
     console.dir(result.ApiResponse.Errors[0]);
     // console.dir(result.ApiResponse.Errors[0].Error);
-    // console.dir(result.ApiResponse.CommandResponse[0].DomainCheckResult[0].$);
-    // console.dir(result.ApiResponse.CommandResponse[0].DomainCheckResult);
 });
 
 })
