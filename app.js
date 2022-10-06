@@ -10,10 +10,10 @@ app.use(express.json());
 app.use(morgan('dev'))
 
 var check_routes = require('./routes/check');
-// var price_routes = require('./routes/price')
+var price_routes = require('./routes/price')
 
 app.use('/check', check_routes);
-// app.use('/price', price_routes);
+app.use('/price', price_routes);
 
 // Error Handling
 app.use((req, res, next) => {
