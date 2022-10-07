@@ -92,7 +92,6 @@ const priceCheck = async (req, res) => {
             priority: priority,
             error: error.message
         })
-
     }
 
 }
