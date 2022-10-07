@@ -1,10 +1,9 @@
-// var price_check = require("./price_check");
+const axios = require('axios');
+var parseString = require('xml2js').parseString;
 var tld_priority = require('../domains/tld_priority_list.json');
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
-const axios = require('axios');
-var parseString = require('xml2js').parseString;
 
 const checkPrice = async (domainName) => {
     let single_tld = []
@@ -51,7 +50,6 @@ const checkPrice = async (domainName) => {
 }
 
 // let sample_domains_list = ['net', 'org', 'uk', 'com', 'dev', 'bz', 'biz', 'co', 'xyz', 'me', 'io', 'me']
-
 const price_check_all = async (domains_list) => {
     let promise_domains_list = domains_list.map(domain => checkPrice(domain))
     const get_all = await Promise.all(promise_domains_list)
@@ -59,10 +57,7 @@ const price_check_all = async (domains_list) => {
     return get_all
 }
 
-// if (process.env.NODE_ENV !== 'production') {
-//     require('dotenv').config();
-// }
-
+// main controller
 const priceCheck = async (req, res) => {
     let [domain, tld] = req.body.url.split('.')
     let priority = req.body.priority
@@ -72,11 +67,7 @@ const priceCheck = async (req, res) => {
         if (tld_priority.hasOwnProperty(priority_key)) {
             let priority_file = tld_priority[priority_key]
             if (priority==1) priority_file.unshift(tld)
-            // for testing keep this array here 
-            // let sample_domains_list = ['net', 'org', 'uk', 'com', 'dev', 'bz', 'biz', 'co', 'xyz', 'me', 'io', 'me']
-            // var pricing_data = await price_check(priority_file)
             var pricing_data = await price_check_all(priority_file)
-            // price_check_all
           
             res.status(200).json({
                 domain:domain,
